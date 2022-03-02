@@ -1,3 +1,5 @@
+using Player;
+
 namespace Main
 {
     public class GameEvents
@@ -21,5 +23,27 @@ namespace Main
     public class GameoverSignal
     {
         
+    }
+    
+    
+    public class PlayerMoveToTopSignal
+    {
+        
+    }
+    
+    
+    public class PlayerMoveToBottomSignal
+    {
+        
+    }
+
+    public class PlayerStateChangedSignal
+    {
+        public PlayerStates State { get; private set; }
+
+        public PlayerStateChangedSignal(PlayerStates state)
+        {
+            State = state;
+        }
     }
 }

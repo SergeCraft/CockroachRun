@@ -1,5 +1,6 @@
 using Config;
 using Main;
+using Player;
 using UnityEngine;
 using Zenject;
 
@@ -12,9 +13,15 @@ public class GameInstaller: MonoInstaller<GameInstaller>
 
         SetupBindings();
         SetupSignalBus();
+        InstantiatePlayer();
         
         Debug.Log("Container was set");
         
+    }
+
+    private void InstantiatePlayer()
+    {
+        Container.InstantiatePrefabResource("SergeCraft/Prefabs/Player");
     }
 
     private void SetupBindings()
@@ -30,6 +37,8 @@ public class GameInstaller: MonoInstaller<GameInstaller>
         Container.DeclareSignal<ComponentsLoadedSignal>();
         Container.DeclareSignal<GameStartedSignal>();
         Container.DeclareSignal<GameoverSignal>();
+        Container.DeclareSignal<PlayerMoveToBottomSignal>();
+        Container.DeclareSignal<PlayerMoveToTopSignal>();
     }
 }
 

@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Player
 {
-    public class PlayerController : MonoBehaviour, IDisposable
+    public class PlayerView : MonoBehaviour, IDisposable
     {
         private SignalBus _signalBus;
         private PlayerStates _state;

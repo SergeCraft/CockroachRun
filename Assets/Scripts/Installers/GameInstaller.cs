@@ -39,6 +39,7 @@ public class GameInstaller: MonoInstaller<GameInstaller>
         Container.DeclareSignal<GameoverSignal>();
         Container.DeclareSignal<PlayerMoveToBottomSignal>();
         Container.DeclareSignal<PlayerMoveToTopSignal>();
+        Container.DeclareSignal<PlayerStateChangedSignal>();
     }
 }
 

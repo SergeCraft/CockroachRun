@@ -1031,6 +1031,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1222791848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6719077804850198599, guid: b45ed381bd5091840bb0662e22dc40a0, type: 3}
+  m_PrefabInstance: {fileID: 1511448960}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222791849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222791848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be174bae825f4b57a971e1c6bc59c096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1281762035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,6 +1179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e9efd4dbc749ed84bde6b4055e1f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FloorPrefab: {fileID: 0}
+  PlayerPrefab: {fileID: 0}
 --- !u!114 &1893343985
 MonoBehaviour:
   m_ObjectHideFlags: 0

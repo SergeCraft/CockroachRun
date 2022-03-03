@@ -28,6 +28,8 @@ public class GameInstaller: MonoInstaller<GameInstaller>
     {
         Container.BindInterfacesTo<Game>().AsSingle();
         Container.Bind<IConfigManager>().To<HardcodeGameConfigManager>().AsSingle();
+        Container.BindInterfacesTo<SimplePlayerController>().AsSingle();
+
     }
 
     private void SetupSignalBus()

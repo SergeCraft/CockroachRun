@@ -10,49 +10,21 @@ namespace Player
     public class PlayerView : MonoBehaviour, IDisposable
     {
         private SignalBus _signalBus;
-        private PlayerStates _state;
+        private float _fallTime = 1.0f;
         
-        private float _timeElapsed;
-        private float _sourcePosY = 0.0f;
-        private float _targetPosY = 0.0f;
-        private float _moveTime = 0.0f;
 
         public AnimationCurve moveCurve;
 
-        public PlayerStates State
-        {
-            get
-            {
-                return _state;
-            }
-            private set
-            {
-                _state = value;
-                OnStateChanged(_state);
-            }
-        }
         
         [Inject]
         public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
-            _state = PlayerStates.MovingToTop;
 
             SubscribeToSignalBus();
-            SetDefaultPosition();
+            SetDefaults();
 
         }
-
-        void Start()
-        {
-            _timeElapsed = Time.time;
-        }
-
-        void Update()
-        {
-            TryMove();
-        }
-
 
         public void Dispose()
         {
@@ -60,62 +32,7 @@ namespace Player
         }
         
         
-
-        private void TryMove()
-        {
-            if (_state != PlayerStates.OnTop || _state != PlayerStates.OnBottom)
-            {
-                _timeElapsed += Time.deltaTime;
-            
-                switch (_state)
-                {
-                    case PlayerStates.MovingToTop:
-                        _sourcePosY = -1.5f;
-                        _targetPosY = 1.5f;
-                        _moveTime = 1.0f;
-                        if (transform.position.y == _targetPosY)
-                        {
-                            State = PlayerStates.OnTop;
-                        };
-                        break;
-                    case PlayerStates.MovingToBottom:
-                        _sourcePosY = 1.5f;
-                        _targetPosY = -1.5f;
-                        _moveTime = 1.0f;
-                        if (transform.position.y == _targetPosY)
-                        {
-                            State = PlayerStates.OnBottom;
-                        };
-                        break;
-                    case PlayerStates.FallingToTop:
-                        _sourcePosY = 1.5f;
-                        _targetPosY = 3f;
-                        _moveTime = 0.5f;
-                        if (transform.position.y == _targetPosY)
-                        {
-                            State = PlayerStates.FallenOnTop;
-                        };
-                        break;
-                    case PlayerStates.FallingToBottom:
-                        _sourcePosY = -1.5f;
-                        _targetPosY = -3f;
-                        _moveTime = 0.5f;
-                        if (transform.position.y == _targetPosY)
-                        {
-                            State = PlayerStates.FallenOnBottom;
-                        };
-                        break;
-                } ;
-
-                transform.position = new Vector3(
-                    transform.position.x,
-                    Mathf.Lerp(_sourcePosY, _targetPosY, moveCurve.Evaluate(_timeElapsed / _moveTime)),
-                    transform.position.z);
-            }
-            
-        }
-        
-        private void SetDefaultPosition()
+        private void SetDefaults()
         {
             transform.position = new Vector2(-1.3f, -1.5f);
         }
@@ -133,24 +50,44 @@ namespace Player
             _signalBus.Unsubscribe<PlayerMoveToTopSignal>(OnPlayerMoveToTop);
         }
 
-    
+        private IEnumerator Move(Vector2 targetPosition)
+        {
+            Vector2 srcPosition = transform.position;
+            float elapsedTime = 0;
+            while ((Vector2)transform.position != 
+                   targetPosition)
+            {
+                elapsedTime += Time.deltaTime;
+                transform.position = Vector2.Lerp(
+                    srcPosition, 
+                    targetPosition, 
+                    moveCurve.Evaluate(elapsedTime / _fallTime));
+                yield return new WaitForFixedUpdate();
+            }
+        }
         
         
         private void OnPlayerMoveToBottom(PlayerMoveToBottomSignal obj)
         {
             Debug.Log("Player moving to bottom...");
-            _state = PlayerStates.MovingToBottom;
+            StartCoroutine(Move(new Vector2(transform.position.x, -5.0f)));
         }
         
         private void OnPlayerMoveToTop(PlayerMoveToTopSignal obj)
         {
             Debug.Log("Player moving to top...");
-            _state = PlayerStates.MovingToTop;
+            StartCoroutine(Move(new Vector2(transform.position.x, 5.0f)));
         }
 
-        private void OnStateChanged(PlayerStates state)
+
+        private void OnTriggerEnter2D(Collider2D col)
         {
-            _signalBus.Fire(new PlayerStateChangedSignal(state));
+            Debug.Log($"Player hit {col.gameObject.name}");
+        }
+        
+        private void OnTriggerExit2D(Collider2D col)
+        {
+            Debug.Log($"Player left {col.gameObject.name}");
         }
     }
 }

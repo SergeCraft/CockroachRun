@@ -8,7 +8,7 @@ namespace Player
         MovingToBottom,
         FallingToTop,
         FallingToBottom,
-        FallenOnTop,
+        Fallen,
         FallenOnBottom
     }
 }

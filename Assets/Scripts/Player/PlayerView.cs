@@ -40,15 +40,13 @@ namespace Player
 
         private void SubscribeToSignalBus()
         {
-            _signalBus.Subscribe<PlayerMoveToBottomSignal>(OnPlayerMoveToBottom);
-            _signalBus.Subscribe<PlayerMoveToTopSignal>(OnPlayerMoveToTop);
+            _signalBus.Subscribe<PlayerStateChangedSignal>(OnPlayerStateChanged);
         }
 
         private void UnsubscribeFromSignalBus()
         {
             
-            _signalBus.Unsubscribe<PlayerMoveToBottomSignal>(OnPlayerMoveToBottom);
-            _signalBus.Unsubscribe<PlayerMoveToTopSignal>(OnPlayerMoveToTop);
+            _signalBus.Unsubscribe<PlayerStateChangedSignal>(OnPlayerStateChanged);
         }
 
         private IEnumerator Move(Vector2 targetPosition)
@@ -68,25 +66,30 @@ namespace Player
         }
         
         
-        private void OnPlayerMoveToBottom()
+        private void OnPlayerStateChanged(PlayerStateChangedSignal args)
         {
-            Debug.Log("Player moving to bottom...");
-            _actualMove = Move(new Vector2(transform.position.x, -5.0f));
-            StartCoroutine(_actualMove);
+            switch (args.State)
+            {
+                case PlayerStates.MovingToTop:
+                    _actualMove = Move(new Vector2(transform.position.x, 5.0f));
+                    StartCoroutine(_actualMove);
+                    break;
+                case PlayerStates.MovingToBottom:
+                    _actualMove = Move(new Vector2(transform.position.x, -5.0f));
+                    StartCoroutine(_actualMove);
+                    break;
+                default:
+                    Debug.Log($"Player view received unhandled state {args.State}");
+                    break;
+            }
+            
         }
-        
-        private void OnPlayerMoveToTop()
-        {
-            Debug.Log("Player moving to top...");
-            _actualMove = Move(new Vector2(transform.position.x, 5.0f));
-            StartCoroutine(_actualMove);
-        }
-
 
         private void OnTriggerEnter2D(Collider2D col)
         {
             Debug.Log($"Player hit {col.gameObject.name}");
             StopCoroutine(_actualMove);
+            _signalBus.Fire(new PlayerHitSignal(col.gameObject));
         }
     }
 }

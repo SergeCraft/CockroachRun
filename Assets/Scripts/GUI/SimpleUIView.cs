@@ -33,6 +33,7 @@ namespace GUI
         public void FlipButtonClicked()
         {
             Debug.Log($"Flip Button Clicked");
+            _signalBus.Fire<GameFlipGravitySignal>();
         }
 
         public void Dispose()

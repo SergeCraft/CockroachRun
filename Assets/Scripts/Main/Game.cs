@@ -64,6 +64,7 @@ namespace Main
 
         private void OnGameover(GameoverSignal args)
         {
+            Debug.Log("Game over");
             _state = GameStates.GameOver;
             ShowUI();
         }

@@ -1,4 +1,5 @@
 using Player;
+using UnityEngine;
 
 namespace Main
 {
@@ -40,17 +41,6 @@ namespace Main
         
     }
     
-    public class PlayerMoveToTopSignal
-    {
-        
-    }
-    
-    
-    public class PlayerMoveToBottomSignal
-    {
-        
-    }
-
     public class PlayerStateChangedSignal
     {
         public PlayerStates State { get; private set; }
@@ -58,6 +48,16 @@ namespace Main
         public PlayerStateChangedSignal(PlayerStates state)
         {
             State = state;
+        }
+    }
+
+    public class PlayerHitSignal
+    {
+        public GameObject Other { get; private set; }
+
+        public PlayerHitSignal(GameObject other)
+        {
+            Other = other;  
         }
     }
 }

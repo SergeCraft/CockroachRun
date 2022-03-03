@@ -11,6 +11,7 @@ namespace Player
     {
         private SignalBus _signalBus;
         private float _fallTime = 1.0f;
+        private IEnumerator _actualMove;
         
 
         public AnimationCurve moveCurve;
@@ -70,19 +71,22 @@ namespace Player
         private void OnPlayerMoveToBottom(PlayerMoveToBottomSignal obj)
         {
             Debug.Log("Player moving to bottom...");
-            StartCoroutine(Move(new Vector2(transform.position.x, -5.0f)));
+            _actualMove = Move(new Vector2(transform.position.x, -5.0f));
+            StartCoroutine(_actualMove);
         }
         
         private void OnPlayerMoveToTop(PlayerMoveToTopSignal obj)
         {
             Debug.Log("Player moving to top...");
-            StartCoroutine(Move(new Vector2(transform.position.x, 5.0f)));
+            _actualMove = Move(new Vector2(transform.position.x, 5.0f));
+            StartCoroutine(_actualMove);
         }
 
 
         private void OnTriggerEnter2D(Collider2D col)
         {
             Debug.Log($"Player hit {col.gameObject.name}");
+            StopCoroutine(_actualMove);
         }
         
         private void OnTriggerExit2D(Collider2D col)

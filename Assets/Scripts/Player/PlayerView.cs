@@ -68,14 +68,14 @@ namespace Player
         }
         
         
-        private void OnPlayerMoveToBottom(PlayerMoveToBottomSignal obj)
+        private void OnPlayerMoveToBottom()
         {
             Debug.Log("Player moving to bottom...");
             _actualMove = Move(new Vector2(transform.position.x, -5.0f));
             StartCoroutine(_actualMove);
         }
         
-        private void OnPlayerMoveToTop(PlayerMoveToTopSignal obj)
+        private void OnPlayerMoveToTop()
         {
             Debug.Log("Player moving to top...");
             _actualMove = Move(new Vector2(transform.position.x, 5.0f));
@@ -87,11 +87,6 @@ namespace Player
         {
             Debug.Log($"Player hit {col.gameObject.name}");
             StopCoroutine(_actualMove);
-        }
-        
-        private void OnTriggerExit2D(Collider2D col)
-        {
-            Debug.Log($"Player left {col.gameObject.name}");
         }
     }
 }

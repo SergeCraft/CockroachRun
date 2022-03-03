@@ -24,7 +24,21 @@ namespace Main
     {
         
     }
-    
+
+    public class GamePausedSignal
+    {
+        public bool IsPaused { get; private set; }
+
+        public GamePausedSignal(bool isPaused)
+        {
+            IsPaused = isPaused;    
+        }
+    }
+
+    public class GameFlipGravitySignal
+    {
+        
+    }
     
     public class PlayerMoveToTopSignal
     {

@@ -39,6 +39,8 @@ public class GameInstaller: MonoInstaller<GameInstaller>
         Container.DeclareSignal<ComponentsLoadedSignal>();
         Container.DeclareSignal<GameStartedSignal>();
         Container.DeclareSignal<GameoverSignal>();
+        Container.DeclareSignal<GamePausedSignal>();
+        Container.DeclareSignal<GameFlipGravitySignal>();
         Container.DeclareSignal<PlayerMoveToBottomSignal>();
         Container.DeclareSignal<PlayerMoveToTopSignal>();
         Container.DeclareSignal<PlayerStateChangedSignal>();

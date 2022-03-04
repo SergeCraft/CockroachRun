@@ -17,6 +17,9 @@ Actual Android build may be downloaded from
 <a href="https://drive.google.com/uc?export=download&id=1DLTGYNImqBwVUqM4EmjfTVmq4qotFx-6">here</a>
 (may be some time delays with download and warnings)
 
+
+<img src="https://drive.google.com/uc?export=view&id=1uMOCB6de2OV5Pgy2Wa4Wh9h7D9HF5VmV" alt="screenshot1" width="300"/> 
+<img src="https://drive.google.com/uc?export=view&id=1l0fNPwBW3FY48gw5LwfrzHlCEOQuPTr3" alt="screenshot2" width="300"/></br>
 ---
 ## ToDo list
 

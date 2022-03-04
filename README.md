@@ -14,14 +14,14 @@ Ball behaviour reminds cockroach run for me, so, I will try to make suitable gra
 
 ## ToDo list
 
-- [ ] Learn about 2D game development
-- [ ] Confirm minimalist/pre-rendered 3D art style
+- [x] Learn about 2D game development
+- [x] Confirm minimalist/pre-rendered 3D art style
 - [ ] Draw level tiling
-- [ ] Draw ball/cockroach character
-- [ ] Code basic architecture with Zenject
-- [ ] Construct basic business logic
-- [ ] Code main game contrrollers
-- [ ] Code UI
-- [ ] Code level controller
-- [ ] Code character controller
+- [x] Draw ball/cockroach character
+- [x] Code basic architecture with Zenject
+- [x] Construct basic business logic
+- [x] Code main game contrrollers
+- [x] Code UI
+- [x] Code level controller
+- [x] Code character controller
 

@@ -26,6 +26,16 @@ namespace Level
             _movingRoutine = Move();
         }
 
+        public void Freeze()
+        {
+            StopCoroutine(_movingRoutine);
+        }
+        
+        public void Unfreeze()
+        {
+            StartCoroutine(_movingRoutine);
+        }
+
         private void Awake()
         {
             StartCoroutine(_movingRoutine);

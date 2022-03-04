@@ -1,4 +1,5 @@
 using Config;
+using GUI;
 using Level;
 using Main;
 using Player;
@@ -10,6 +11,7 @@ public class GameInstaller: MonoInstaller<GameInstaller>
 
     public GameObject FloorPrefab;
     public GameObject PlayerPrefab;
+    public GameObject UIPrefab;
     
     public override void InstallBindings()
     {
@@ -18,7 +20,7 @@ public class GameInstaller: MonoInstaller<GameInstaller>
         SetupPrefabs();
         SetupBindings();
         SetupSignalBus();
-        InstantiatePlayer();
+        InstantiatePrefabs();
         
         Debug.Log("Container was set");
         
@@ -30,9 +32,11 @@ public class GameInstaller: MonoInstaller<GameInstaller>
             FloorPrefab = Resources.Load<GameObject>("SergeCraft/Prefabs/Floor");
         if (PlayerPrefab == null) 
             PlayerPrefab = Resources.Load<GameObject>("SergeCraft/Prefabs/Player");
+        if (UIPrefab == null) 
+            UIPrefab = Resources.Load<GameObject>("SergeCraft/Prefabs/SimpleUI");
     }
 
-    private void InstantiatePlayer()
+    private void InstantiatePrefabs()
     {
         Container.InstantiatePrefab(PlayerPrefab);
     }
@@ -43,12 +47,20 @@ public class GameInstaller: MonoInstaller<GameInstaller>
         Container.BindInstance(new GameConfig()
             {
                 GameSpeed = 3.0f,
-                TopFloorDefaultY = 3.0f,
-                BottomFloorDefaultY = -3.0f
+                TopFloorDefaultY = 2.0f,
+                BottomFloorDefaultY = -2.0f,
+                FloorSpaceXMin = 1.5f,
+                FloorSpaceXMax= 2.5f,
+                FloorScaleXMin = 2.0f,
+                FloorScaleXMax = 10.0f,
+                FloorScaleYMin = 0.2f,
+                FloorScaleYMax = 0.5f
             }).AsSingle();
+        Container.Bind<Score>().AsSingle();
         Container.BindInterfacesTo<SimplePlayerController>().AsSingle();
         Container.BindInterfacesTo<SimpleLevelController>().AsSingle();
-        
+        Container.BindInterfacesTo<SimpleUIView>().FromComponentInNewPrefab(UIPrefab).AsSingle();
+
         Container.BindInstance(new FloorView.ConstructOptions (
             new Vector2(0.0f, 0.0f),
             new Vector2(0.0f, 0.0f),
@@ -61,13 +73,12 @@ public class GameInstaller: MonoInstaller<GameInstaller>
     {
         SignalBusInstaller.Install(Container);
         
-        Container.DeclareSignal<ComponentsLoadedSignal>();
-        Container.DeclareSignal<GameStartedSignal>();
-        Container.DeclareSignal<GameoverSignal>();
-        Container.DeclareSignal<GamePausedSignal>();
+        Container.DeclareSignal<GameStateChangedSignal>();
+        Container.DeclareSignal<GameStateChangeRequestedSignal>();
         Container.DeclareSignal<GameFlipGravitySignal>();
         Container.DeclareSignal<PlayerStateChangedSignal>();
         Container.DeclareSignal<PlayerHitSignal>();
+        Container.DeclareSignal<PlayerLeftSignal>();
         Container.DeclareSignal<FloorReachedPositionSignal>();
     }
 }

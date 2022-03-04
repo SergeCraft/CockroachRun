@@ -6,9 +6,9 @@ namespace Player
         OnBottom,
         MovingToTop,
         MovingToBottom,
-        FallingToTop,
-        FallingToBottom,
         Fallen,
-        FallenOnBottom
+        Frozen,
+        Unfrozen,
+        Restarting
     }
 }

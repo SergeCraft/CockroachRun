@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1003308922277546595}
   - component: {fileID: 3121607606875805753}
   - component: {fileID: 8251229775703039010}
+  - component: {fileID: 5185235986891903255}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -126,8 +127,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.3926571
-      value: 0.07762713
+      time: 0.3134945
+      value: 0.065847345
       inSlope: 0.64364755
       outSlope: 0.64364755
       tangentMode: 0
@@ -164,6 +165,23 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1818360608 &5185235986891903255
+PositionConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4721779963671680058}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffset: {x: 0, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_IsContraintActive: 0
+  m_IsLocked: 0
+  m_Sources: []

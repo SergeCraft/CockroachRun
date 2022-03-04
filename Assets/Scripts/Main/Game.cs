@@ -1,5 +1,8 @@
 using System;
 using Config;
+using GUI;
+using Level;
+using Player;
 using UnityEngine;
 using Zenject;
 
@@ -10,12 +13,41 @@ namespace Main
         private SignalBus _signalBus;
         private GameStates _state;
         private GameConfig _config;
+        private Score _score;
+        private float _playBeginTime;
+        private IUIView _uiView;
+        private ILevelController _levelController;
+        private IPlayerController _playerController;
 
-        public Game(SignalBus signalBus, GameConfig config)
+        public GameStates State
+        {
+            get
+            {
+                return _state;
+            }
+            set
+            {
+                _state = value;
+                _signalBus.Fire(new GameStateChangedSignal(_state));
+            }
+        }
+        
+
+        public Game(
+            SignalBus signalBus,
+            GameConfig config,
+            IUIView uiView,
+            ILevelController levelController,
+            IPlayerController playerController,
+            Score score)
         {
             _signalBus = signalBus;
-            _state = GameStates.Paused;
+            State = GameStates.Restarting;
             _config = config;
+            // _uiView = uiView;
+            // _levelController = levelController;
+            // _playerController = playerController;
+            _score = score;
 
             SubscribeToSignalBus();
         }
@@ -28,45 +60,69 @@ namespace Main
 
         private void SubscribeToSignalBus()
         {
-            _signalBus.Subscribe<ComponentsLoadedSignal>(OnComponentsLoaded);
-            _signalBus.Subscribe<GameStartedSignal>(OnGameStarted);
-            _signalBus.Subscribe<GameoverSignal>(OnGameover);
+            _signalBus.Subscribe<GameStateChangeRequestedSignal>(OnGameStateChangeRequested);
+            _signalBus.Subscribe<GameFlipGravitySignal>(OnGameFlipGravity);
         }
         
         private void UnsubscribeFromSignalBus()
         {
-            
-            _signalBus.Unsubscribe<ComponentsLoadedSignal>(OnComponentsLoaded);
-            _signalBus.Unsubscribe<GameStartedSignal>(OnGameStarted);
-            _signalBus.Unsubscribe<GameoverSignal>(OnGameover);
+            _signalBus.Unsubscribe<GameStateChangeRequestedSignal>(OnGameStateChangeRequested);
+            _signalBus.Unsubscribe<GameFlipGravitySignal>(OnGameFlipGravity);
         }
 
-        private void OnComponentsLoaded(ComponentsLoadedSignal args)
+        private void OnGameFlipGravity(GameFlipGravitySignal obj)
         {
-            ShowUI();
+            switch (_state)
+            {
+                case GameStates.Restarting:
+                    State = GameStates.Playing;
+                    _playBeginTime = Time.time;
+                    _score.Time = 0;
+                    break;
+                case GameStates.GameOver:
+                    State = GameStates.Restarting;
+                    break;
+            };
         }
 
-        private void ShowUI()
+        private void OnGameStateChangeRequested(GameStateChangeRequestedSignal args)
         {
-            Debug.Log("Showing UI...");
+            switch (args.State)
+            {
+                case GameStates.Restarting:
+                    State = GameStates.Restarting;
+                    _score.Time = 0;
+                    break;
+                case GameStates.GameOver:
+                    if (_state == GameStates.Playing)
+                    {
+                        AddScore();
+                        State = GameStates.GameOver;
+                    }
+                    break;
+                case GameStates.Paused:
+                    if (_state == GameStates.Playing)
+                    {
+                        AddScore();
+                        State = GameStates.Paused;
+                    }
+                    break;
+                case GameStates.Playing:
+                    if (_state == GameStates.Paused || _state == GameStates.Restarting)
+                    {
+                        State = GameStates.Playing;
+                        _playBeginTime = Time.time;
+                    }
+                    break;
+                default:
+                    Debug.Log("Requested unhandled game state change");
+                    break;
+            } ;
         }
 
-        private void HideUI()
+        private void AddScore()
         {
-            Debug.Log("Hiding UI...");
-        }
-
-        private void OnGameStarted(GameStartedSignal args)
-        {
-            _state = GameStates.Playing;
-            HideUI();
-        }
-
-        private void OnGameover(GameoverSignal args)
-        {
-            Debug.Log("Game over");
-            _state = GameStates.GameOver;
-            ShowUI();
+            _score.Time += Time.time - _playBeginTime;
         }
     }
 }

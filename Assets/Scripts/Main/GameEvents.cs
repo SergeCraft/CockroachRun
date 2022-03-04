@@ -4,36 +4,25 @@ using UnityEngine;
 
 namespace Main
 {
-    public class GameEvents
-    {
-        
-    }
+   
 
-    
-    public class ComponentsLoadedSignal
+    public class GameStateChangedSignal
     {
-        
-    } 
-    
-    
-    public class GameStartedSignal
-    {
-        
-    }
-    
-    
-    public class GameoverSignal
-    {
-        
-    }
+        public GameStates State { get; private set; }
 
-    public class GamePausedSignal
-    {
-        public bool IsPaused { get; private set; }
-
-        public GamePausedSignal(bool isPaused)
+        public GameStateChangedSignal(GameStates state)
         {
-            IsPaused = isPaused;    
+            State = state;
+        }
+    }
+
+    public class GameStateChangeRequestedSignal
+    {
+        public GameStates State { get; private set; }
+
+        public GameStateChangeRequestedSignal(GameStates state)
+        {
+            State = state;
         }
     }
 
@@ -57,6 +46,16 @@ namespace Main
         public GameObject Other { get; private set; }
 
         public PlayerHitSignal(GameObject other)
+        {
+            Other = other;  
+        }
+    }
+    
+    public class PlayerLeftSignal
+    {
+        public GameObject Other { get; private set; }
+
+        public PlayerLeftSignal(GameObject other)
         {
             Other = other;  
         }

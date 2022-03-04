@@ -1,3 +1,4 @@
+using Level;
 using Player;
 using UnityEngine;
 
@@ -58,6 +59,18 @@ namespace Main
         public PlayerHitSignal(GameObject other)
         {
             Other = other;  
+        }
+    }
+
+    public class FloorReachedPositionSignal
+    {
+        public GameObject Floor { get; private set; }
+        public FloorPositionTypes PositionType { get; private set; }
+
+        public FloorReachedPositionSignal(GameObject floor, FloorPositionTypes posType)
+        {
+            Floor = floor;
+            PositionType = posType;
         }
     }
 }

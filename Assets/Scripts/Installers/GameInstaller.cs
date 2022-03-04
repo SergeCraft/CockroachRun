@@ -40,8 +40,12 @@ public class GameInstaller: MonoInstaller<GameInstaller>
     private void SetupBindings()
     {
         Container.BindInterfacesTo<Game>().AsSingle();
-        Container.Bind<IConfigManager>().To<HardcodeGameConfigManager>().AsSingle();
-        Container.Bind<GameConfig>().AsSingle();
+        Container.BindInstance(new GameConfig()
+            {
+                GameSpeed = 3.0f,
+                TopFloorDefaultY = 3.0f,
+                BottomFloorDefaultY = -3.0f
+            }).AsSingle();
         Container.BindInterfacesTo<SimplePlayerController>().AsSingle();
         Container.BindInterfacesTo<SimpleLevelController>().AsSingle();
         
@@ -64,6 +68,7 @@ public class GameInstaller: MonoInstaller<GameInstaller>
         Container.DeclareSignal<GameFlipGravitySignal>();
         Container.DeclareSignal<PlayerStateChangedSignal>();
         Container.DeclareSignal<PlayerHitSignal>();
+        Container.DeclareSignal<FloorReachedPositionSignal>();
     }
 }
 

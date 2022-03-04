@@ -11,11 +11,11 @@ namespace Main
         private GameStates _state;
         private GameConfig _config;
 
-        public Game(SignalBus signalBus, IConfigManager configMgr)
+        public Game(SignalBus signalBus, GameConfig config)
         {
             _signalBus = signalBus;
             _state = GameStates.Paused;
-            _config = configMgr.GetConfig();
+            _config = config;
 
             SubscribeToSignalBus();
         }

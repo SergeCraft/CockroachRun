@@ -11,7 +11,13 @@ Android .apk should be represented as result.
 Ball behaviour reminds cockroach run for me, so, I will try to make suitable graphics for this project.
 
 ---
+## Build
 
+Actual Android build may be downloaded from
+<a href="https://drive.google.com/uc?export=download&id=1DLTGYNImqBwVUqM4EmjfTVmq4qotFx-6">here</a>
+(may be some time delays with download and warnings)
+
+---
 ## ToDo list
 
 - [x] Learn about 2D game development

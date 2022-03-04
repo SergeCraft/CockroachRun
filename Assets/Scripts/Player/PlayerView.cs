@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using Main;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.Animations;
 using Zenject;
